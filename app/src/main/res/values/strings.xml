@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">CrashSnap</string>
+    <string name="title_menu1">Welcome to the CrashSnap</string>
+    <string name="desc_menu1">CrashSnap is a mobile application that utilizes computer vision technology to estimate car repair costs after an accident. Simply take a picture of the damage, and our AI model will analyze the image to predict repair costs and recommend the nearest repair shops.</string>
+    <string name="title_menu2">Find the Right Action for You</string>
+    <string name="desc_menu2">CrashSnap also suggests appropriate repair actions either DIY fixes or professional repairs to guide you to make informed decisions after an incident.</string>
+    <string name="lets_get_started">LET\'S GET STARTED</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="name">Name</string>
+    <string name="no_account">No account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="have_account">Already have an account.</string>
 </resources>

@@ -3,7 +3,25 @@
     <style name="Base.Theme.CrashSnap" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<!--        <item name="android:windowBackground">@drawable/ic_logo_crashsnap</item>-->
     </style>
 
     <style name="Theme.CrashSnap" parent="Base.Theme.CrashSnap" />
+<!--    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+<!--        <item name="android:windowBackground">@drawable/ic_logo_crashsnap</item>-->
+<!--    </style>-->
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background, animated icon, and animation
+        duration. -->
+        <item name="windowSplashScreenBackground">@color/white</item>
+
+        <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
+             drawable. One of these is required. -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_crashsnap</item>
+
+        <!-- Set the theme of the Activity that directly follows your splash
+        screen. This is required. -->
+        <item name="postSplashScreenTheme">@style/Base.Theme.CrashSnap</item>
+    </style>
 </resources>
