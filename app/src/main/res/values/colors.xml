@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="redmaroon_normal">#C04D4D</color>
+    <color name="redmaroon_light">#F9EDED</color>
 </resources>

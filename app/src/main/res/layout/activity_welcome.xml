@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    app:layoutDescription="@xml/activity_welcome_scene"
+    tools:context=".ui.welcome.WelcomeActivity">
+
+
+    <ImageView
+        android:id="@+id/logomenu1"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:src="@drawable/image_by_my_car_rafiki"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/titlemenu1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_bold"
+        android:text="@string/title_menu1"
+        android:layout_marginTop="16dp"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/logomenu1"
+        app:layout_constraintTop_toBottomOf="@+id/logomenu1" />
+
+    <TextView
+        android:id="@+id/descmenu1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter"
+        android:text="@string/desc_menu1"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/titlemenu1"
+        app:layout_constraintTop_toBottomOf="@+id/titlemenu1" />
+
+
+    <ImageView
+        android:id="@+id/logomenu2"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:src="@drawable/image_car_accesories_rafiki"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/titlemenu2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:fontFamily="@font/inter_bold"
+        android:text="@string/title_menu2"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/logomenu2"
+        app:layout_constraintStart_toStartOf="@+id/logomenu2"
+        app:layout_constraintTop_toBottomOf="@+id/logomenu2" />
+
+    <TextView
+        android:id="@+id/descmenu2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter"
+        android:text="@string/desc_menu2"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/titlemenu2"
+        app:layout_constraintStart_toStartOf="@id/titlemenu2"
+        app:layout_constraintTop_toBottomOf="@+id/titlemenu2" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_next"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/bg_button"
+        android:text="@string/lets_get_started"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/descmenu2"
+        app:layout_constraintStart_toStartOf="@+id/descmenu2"
+        app:layout_constraintTop_toBottomOf="@+id/descmenu2" />
+
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/menu1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="32dp"
+        app:altSrc="@drawable/ic_circle_normal_24"
+        app:srcCompat="@drawable/ic_circle_light_24"
+        app:layout_constraintEnd_toStartOf="@+id/menu2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/menu2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginStart="32dp"
+        app:altSrc="@drawable/ic_circle_normal_24"
+        app:layout_constraintBottom_toBottomOf="@+id/menu1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/menu1"
+        app:layout_constraintTop_toTopOf="@+id/menu1"
+        app:srcCompat="@drawable/ic_circle_light_24" />
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>
