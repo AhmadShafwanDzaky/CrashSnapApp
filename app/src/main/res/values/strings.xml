@@ -12,4 +12,14 @@
     <string name="no_account">No account?</string>
     <string name="sign_up">Sign Up</string>
     <string name="have_account">Already have an account.</string>
+    <string name="repair_shops_button_text">Repair Shops Around You</string>
+    <string name="history_button_text">Car Damage Detection History</string>
+    <string name="tips_button_text">How to use application</string>
+    <string name="add_story_description">Add Story</string>
+    <string name="result">Result</string>
+    <string name="description">Description</string>
+    <string name="save_result_button_text">Save Result</string>
+    <string name="history_detail">History Detail</string>
+    <string name="delete_button_text">Delete History</string>
+    <string name="item_title">Item Title</string>
 </resources>
