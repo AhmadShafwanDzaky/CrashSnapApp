@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CrashSnap</string>
+    <string name="title_menu1">Welcome to the CrashSnap</string>
+    <string name="desc_menu1">CrashSnap is a mobile application that utilizes computer vision technology to estimate car repair costs after an accident. Simply take a picture of the damage, and our AI model will analyze the image to predict repair costs and recommend the nearest repair shops.</string>
+    <string name="title_menu2">Find the Right Action for You</string>
+    <string name="desc_menu2">CrashSnap also suggests appropriate repair actions either DIY fixes or professional repairs to guide you to make informed decisions after an incident.</string>
+    <string name="lets_get_started">LET\'S GET STARTED</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="name">Name</string>
+    <string name="no_account">No account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="have_account">Already have an account.</string>
+    <string name="repair_shops_button_text">Repair Shops Around You</string>
+    <string name="history_button_text">Car Damage Detection History</string>
+    <string name="tips_button_text">How to use application</string>
+    <string name="add_story_description">Add Story</string>
+    <string name="result">Result</string>
+    <string name="description">Description</string>
+    <string name="save_result_button_text">Save Result</string>
+    <string name="history_detail">History Detail</string>
+    <string name="delete_button_text">Delete History</string>
+    <string name="item_title">Item Title</string>
+    <string name="profile">Profile</string>
+    <string name="language">Language</string>
+    <string name="logout">Logout</string>
+    <string name="hello">Hello!</string>
+    <string name="slogan">Just had a crash? Take a snap!</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="empty_history">No history yet</string>
+    <string name="open_gallery">Open gallery</string>
+    <string name="open_camera">Open Camera</string>
+</resources>

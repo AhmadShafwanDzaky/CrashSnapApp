@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
+        app:menu="@menu/menu"
         app:title="@string/app_name"
         app:titleTextColor="@color/redmaroon_normal"/>
 
@@ -28,22 +29,59 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <TextView
+        android:id="@+id/tv_hello"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:fontFamily="@font/inter_semibold"
+        android:text="@string/hello"
+        android:textSize="24sp"
+        android:textColor="@color/redmaroon_normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_name"
+        app:layout_constraintBottom_toTopOf="@id/tv_slogan"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:fontFamily="@font/inter_semibold"
+        android:text="@string/name"
+        android:textSize="24sp"
+        android:textColor="@color/redmaroon_normal"
+        app:layout_constraintStart_toEndOf="@+id/tv_hello"
+        app:layout_constraintTop_toTopOf="@+id/tv_hello" />
+
+    <TextView
+        android:id="@+id/tv_slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:text="@string/slogan"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hello" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/repairShopButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_secondary_button"
+        android:fontFamily="@font/inter"
         android:paddingHorizontal="24dp"
         android:paddingVertical="32dp"
-        android:fontFamily="@font/inter"
+        android:layout_marginTop="32dp"
         android:text="@string/repair_shops_button_text"
-        android:textSize="16sp"
-        android:textColor="@color/md_theme_onSecondary"
-        android:textAllCaps="false"
         android:textAlignment="textStart"
+        android:textAllCaps="false"
+        android:textColor="@color/md_theme_onSecondary"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_slogan" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/historyButton"
