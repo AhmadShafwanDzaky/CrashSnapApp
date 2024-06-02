@@ -44,7 +44,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Open gallery"
+                android:text="@string/open_gallery"
                 app:layout_constraintBottom_toBottomOf="@+id/galleryButton"
                 app:layout_constraintStart_toEndOf="@+id/galleryButton"
                 app:layout_constraintTop_toTopOf="@+id/galleryButton" />
@@ -72,7 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Open camera"
+                android:text="@string/open_camera"
                 app:layout_constraintBottom_toBottomOf="@+id/cameraButton"
                 app:layout_constraintStart_toEndOf="@+id/cameraButton"
                 app:layout_constraintTop_toTopOf="@+id/cameraButton" />
