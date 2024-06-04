@@ -83,9 +83,6 @@
         tools:visibility="visible" />
 
 
-
-
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/repairShopButton"
         android:layout_width="0dp"
@@ -94,14 +91,14 @@
         android:fontFamily="@font/inter"
         android:paddingHorizontal="24dp"
         android:paddingVertical="32dp"
-        android:layout_marginTop="32dp"
         android:text="@string/repair_shops_button_text"
         android:textAlignment="textStart"
         android:textAllCaps="false"
         android:textColor="@color/md_theme_onSecondary"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/historyButton"
