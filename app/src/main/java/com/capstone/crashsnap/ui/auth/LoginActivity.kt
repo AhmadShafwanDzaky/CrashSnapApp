@@ -15,8 +15,13 @@ class LoginActivity : AppCompatActivity() {
         binding.tvSignUp.setOnClickListener {
             startActivity(Intent(this, SignupActivity::class.java))
         }
+
         binding.btnLogin.setOnClickListener {
-            startActivity(Intent(this,MainActivity::class.java))
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags =
+                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
         }
     }
 }
