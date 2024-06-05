@@ -31,4 +31,9 @@
     <string name="empty_history">Belum ada riwayat</string>
     <string name="open_gallery">Buka galeri</string>
     <string name="open_camera">Buka kamera</string>
+    <string name="permission_success">Izin diberikan</string>
+    <string name="permission_err">Izin tidak diberikan</string>
+    <string name="no_media">Tidak ada media yang dipilih</string>
+    <string name="mapStyle_err">Gagal memuat gaya peta</string>
+    <string name="msg_required">Diperlukan</string>
 </resources>
