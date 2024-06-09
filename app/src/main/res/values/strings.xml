@@ -36,4 +36,10 @@
     <string name="no_media">Tidak ada media yang dipilih</string>
     <string name="mapStyle_err">Gagal memuat gaya peta</string>
     <string name="msg_required">Diperlukan</string>
+    <string name="see_all">Lihat semua</string>
+    <string name="detection_history">Riwayat</string>
+    <string name="repair_shop">Bengkel</string>
+    <string name="expert_tips">Tips Ahli</string>
+    <string name="preview_image">Pratinjau Gambar</string>
+    <string name="analyze_button_text">Analisa</string>
 </resources>

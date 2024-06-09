@@ -18,4 +18,8 @@ class HistoryDetailActivity : AppCompatActivity() {
             startActivity(Intent(this, HistoryListActivity::class.java))
         }
     }
+
+    companion object {
+        const val EXTRA_STORY_ID = "extra_story_id"
+    }
 }

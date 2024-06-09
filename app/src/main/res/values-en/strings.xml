@@ -37,4 +37,9 @@
     <string name="no_media">No media selected</string>
     <string name="mapStyle_err">Failed to load style maps</string>
     <string name="msg_required">Required</string>
+    <string name="see_all">See all</string>
+    <string name="repair_shop">Repair Shop</string>
+    <string name="expert_tips">Expert Tips</string>
+    <string name="preview_image">Preview Image</string>
+    <string name="analyze_button_text">Analyze</string>
 </resources>
