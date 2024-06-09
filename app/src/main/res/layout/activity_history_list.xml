@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
-        tools:listitem="@layout/item_history"></androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/item_history" />
 
     <TextView
         android:id="@+id/tv_empty"
@@ -46,8 +46,9 @@
         android:gravity="center"
         android:text="@string/empty_history"
         android:textColor="@color/gray"
+        android:textSize="16sp"
         android:visibility="gone"
-        app:fontFamily="@font/inter"
+        app:fontFamily="@font/inter_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
