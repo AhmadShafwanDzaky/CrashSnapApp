@@ -28,18 +28,6 @@
         android:layout_height="match_parent"
         android:paddingTop="24dp">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
-
         <ImageView
             android:id="@+id/bannerImageView"
             android:layout_width="match_parent"
@@ -157,7 +145,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:background="@drawable/bg_history_homepage"
-            android:padding="32dp"
+            android:paddingStart="32dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_repair_shop">
 
@@ -189,19 +180,6 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_story"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:clipToPadding="false"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linear_layout"
-                tools:listitem="@layout/item_history" />
-
             <TextView
                 android:id="@+id/tv_empty"
                 android:layout_width="match_parent"
@@ -224,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="Anda bisa memulai dengan klik button di kanan bawah"
+                android:text="@string/empty_history2"
                 android:textColor="@color/gray"
                 android:visibility="gone"
                 app:fontFamily="@font/inter"
@@ -232,72 +210,36 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_empty"
                 tools:visibility="visible" />
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/layout_refresh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_layout">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="4dp"
+                    android:clipToPadding="false"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linear_layout" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <!--    <Button-->
-        <!--        android:id="@+id/repairShopButton"-->
-        <!--        style="@style/Widget.Material3.Button.TonalButton.Icon"-->
-        <!--        android:layout_width="0dp"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:background="@drawable/bg_secondary_button"-->
-        <!--        android:fontFamily="@font/inter_semibold"-->
-        <!--        android:paddingHorizontal="24dp"-->
-        <!--        android:paddingVertical="32dp"-->
-        <!--        android:layout_marginTop="32dp"-->
-        <!--        android:text="@string/repair_shops_button_text"-->
-        <!--        android:textAlignment="textStart"-->
-        <!--        android:textAllCaps="false"-->
-        <!--        android:textColor="@color/md_theme_onSecondary"-->
-        <!--        android:textSize="16sp"-->
-        <!--        android:drawableEnd="@drawable/icon_chevron_right_24"-->
-        <!--        android:drawableTint="@color/md_theme_primary"-->
-        <!--        app:backgroundTint="@color/md_theme_secondary"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@+id/bannerImageView"/>-->
 
-        <!--    <Button-->
-        <!--        android:id="@+id/historyButton"-->
-        <!--        style="@style/Widget.Material3.Button.TonalButton.Icon"-->
-        <!--        android:layout_width="0dp"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:background="@drawable/bg_secondary_button"-->
-        <!--        android:fontFamily="@font/inter_semibold"-->
-        <!--        android:paddingHorizontal="24dp"-->
-        <!--        android:paddingVertical="32dp"-->
-        <!--        android:layout_marginTop="32dp"-->
-        <!--        android:text="@string/history_button_text"-->
-        <!--        android:textAlignment="textStart"-->
-        <!--        android:textAllCaps="false"-->
-        <!--        android:textColor="@color/md_theme_onSecondary"-->
-        <!--        android:textSize="16sp"-->
-        <!--        android:drawableEnd="@drawable/icon_chevron_right_24"-->
-        <!--        android:drawableTint="@color/md_theme_primary"-->
-        <!--        app:backgroundTint="@color/md_theme_secondary"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@id/repairShopButton" />-->
-
-        <!--    <Button-->
-        <!--        android:id="@+id/tipsButton"-->
-        <!--        style="@style/Widget.Material3.Button.TonalButton.Icon"-->
-        <!--        android:layout_width="0dp"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:background="@drawable/bg_secondary_button"-->
-        <!--        android:fontFamily="@font/inter_semibold"-->
-        <!--        android:paddingHorizontal="24dp"-->
-        <!--        android:paddingVertical="32dp"-->
-        <!--        android:layout_marginTop="32dp"-->
-        <!--        android:text="@string/tips_button_text"-->
-        <!--        android:textAlignment="textStart"-->
-        <!--        android:textAllCaps="false"-->
-        <!--        android:textColor="@color/md_theme_onSecondary"-->
-        <!--        android:textSize="16sp"-->
-        <!--        android:drawableEnd="@drawable/icon_chevron_right_24"-->
-        <!--        android:drawableTint="@color/md_theme_primary"-->
-        <!--        app:backgroundTint="@color/md_theme_secondary"-->
-        <!--        app:layout_constraintEnd_toEndOf="parent"-->
-        <!--        app:layout_constraintStart_toStartOf="parent"-->
-        <!--        app:layout_constraintTop_toBottomOf="@id/historyButton" />-->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -308,6 +250,5 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </LinearLayout>
