@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="gray">#605B5B</color>
+    <color name="gray">#808080</color>
     <color name="white">#FFFFFFFF</color>
     <color name="redmaroon_normal">#C04D4D</color>
     <color name="redmaroon_light">#F9EDED</color>
