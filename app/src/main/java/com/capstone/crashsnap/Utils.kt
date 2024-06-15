@@ -15,9 +15,12 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 private const val MAXIMAL_SIZE = 1000000
 private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
@@ -46,7 +49,7 @@ private fun getImageUriForPreQ(context: Context): Uri {
     if (imageFile.parentFile?.exists() == false) imageFile.parentFile?.mkdir()
     return FileProvider.getUriForFile(
         context,
-        "${BuildConfig.APPLICATION_ID}.fileprovider",
+        BuildConfig.APPLICATION_ID + ".provider",
         imageFile
     )
 }
@@ -103,4 +106,12 @@ fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
     return Bitmap.createBitmap(
         source, 0, 0, source.width, source.height, matrix, true
     )
+}
+
+
+fun convertIsoDate(isoDateTime: String): String? {
+    val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+    val date: Date? = isoFormat.parse(isoDateTime)
+    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return date?.let { dateFormat.format(it) }
 }
