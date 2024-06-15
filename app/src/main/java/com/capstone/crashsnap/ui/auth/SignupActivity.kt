@@ -12,9 +12,6 @@ import com.capstone.crashsnap.R
 import com.capstone.crashsnap.ViewModelFactory
 import com.capstone.crashsnap.data.NetResult
 import com.capstone.crashsnap.databinding.ActivitySignupBinding
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import kotlin.math.log
 
 class SignupActivity : AppCompatActivity() {
     private val viewModel by viewModels<AuthViewModel> {
@@ -30,6 +27,7 @@ class SignupActivity : AppCompatActivity() {
         binding.tvLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
+
     }
 
     private fun signup(name: String, email: String, password: String) {
@@ -44,20 +42,16 @@ class SignupActivity : AppCompatActivity() {
                         is NetResult.Success -> {
                             showLoading(false)
                             val message = result.data.message
-                            Log.d(TAG, "onCreate suk gagal: $message")
                             if (!result.data.error) {
-                                Log.d(TAG, "onCreate suk: $message")
                                 showToast(message)
                                 finish()
                             } else {
-                                Log.d(TAG, "onCreate err: $message , ${result.data.error}")
                                 showToast(message)
                             }
                         }
 
                         is NetResult.Error -> {
                             showLoading(false)
-                            Log.d(TAG, "onCreate err failed net:  ${result.error}")
                             showToast(result.error)
                         }
 
@@ -70,25 +64,25 @@ class SignupActivity : AppCompatActivity() {
     private fun validSignup() {
         binding.edName.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrEmpty()) {
-                binding.edName.error = getString(R.string.msg_required)
+                binding.edtextlayoutName.error = getString(R.string.msg_required)
             } else {
-                binding.edName.error = null
+                binding.edtextlayoutName.error = null
             }
         }
 
         binding.edEmail.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrEmpty()) {
-                binding.edEmail.error = getString(R.string.msg_required)
+                binding.edtextlayoutEmail.error = getString(R.string.msg_required)
             } else {
-                binding.edEmail.error = null
+                binding.edtextlayoutEmail.error = null
             }
         }
 
         binding.edPw.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrEmpty()) {
-                binding.edPw.error = getString(R.string.msg_required)
+                binding.edtextlayoutPw.error = getString(R.string.msg_required)
             } else {
-                binding.edPw.error = null
+                binding.edtextlayoutPw.error = null
             }
         }
 
@@ -100,17 +94,17 @@ class SignupActivity : AppCompatActivity() {
             var valid = true
 
             if (name.isEmpty()) {
-                binding.edName.error = getString(R.string.msg_required)
+                binding.edtextlayoutName.error = getString(R.string.msg_required)
                 valid = false
             }
 
             if (email.isEmpty()) {
-                binding.edEmail.error = getString(R.string.msg_required)
+                binding.edtextlayoutEmail.error = getString(R.string.msg_required)
                 valid = false
             }
 
             if (password.isEmpty()) {
-                binding.edPw.error = getString(R.string.msg_required)
+                binding.edtextlayoutPw.error = getString(R.string.msg_required)
                 valid = false
             }
 
