@@ -27,6 +27,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/redmaroon_normal"
         tools:visibility="visible" />
 
 
@@ -42,6 +45,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:errorEnabled="true"
+        app:errorIconDrawable="@null"
         app:errorTextAppearance="@font/inter">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -63,7 +67,8 @@
         app:layout_constraintEnd_toEndOf="@+id/edtextlayout_name"
         app:layout_constraintStart_toStartOf="@+id/edtextlayout_name"
         app:layout_constraintTop_toBottomOf="@+id/edtextlayout_name"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_email"
@@ -82,6 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:endIconMode="password_toggle"
+        app:startIconCheckable="true"
         app:layout_constraintEnd_toEndOf="@+id/edtextlayout_email"
         app:layout_constraintStart_toStartOf="@+id/edtextlayout_email"
         app:layout_constraintTop_toBottomOf="@+id/edtextlayout_email"
