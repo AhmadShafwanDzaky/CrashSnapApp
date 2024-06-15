@@ -16,6 +16,7 @@ import com.capstone.crashsnap.BuildConfig
 import com.capstone.crashsnap.R
 import com.capstone.crashsnap.ViewModelFactory
 import com.capstone.crashsnap.data.NetResult
+import com.capstone.crashsnap.data.remote.response.PlaceResult
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -38,19 +39,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var lat = 0.0
     private var lon = 0.0
-//    private lateinit var placesClient: PlacesClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-//        val apiKey = getApiKey(this)
-
-//        Places.initialize(applicationContext, apiKey)
-//        placesClient = Places.createClient(this)
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -58,15 +52,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
@@ -139,7 +124,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         ){
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
-                    Log.d(TAG, "getMyLastLocation lokasi : ${location.latitude}, ${location.longitude}")
                     lat = location.latitude
                     lon = location.longitude
                     val userLoc = LatLng(location.latitude, location.longitude)
@@ -160,55 +144,53 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun getNearbyRepairShops(latlng: LatLng) {
         val apiKey = BuildConfig.API_KEY
-        val type = "car_repair"
         val location = "${latlng.latitude},${latlng.longitude}"
         val radius = 5000
 
-        viewModel.nearbyPlaces(type, location, radius, apiKey)
-            .observe(this@MapsActivity) { result ->
-                if (result != null) {
-                    when (result) {
-                        is NetResult.Loading -> {
+        val carRepairLiveData = viewModel.nearbyPlaces("car repair", location, radius, apiKey)
+        val ketokMagicLiveData = viewModel.nearbyPlaces("ketok magic", location, radius, apiKey)
 
-                        }
+        carRepairLiveData.observe(this@MapsActivity) { carRepairResult ->
+            ketokMagicLiveData.observe(this@MapsActivity) { ketokMagicResult ->
+                val combinedResults = mutableListOf<PlaceResult>()
 
+                if (carRepairResult != null) {
+                    when (carRepairResult) {
                         is NetResult.Success -> {
-                            val message = result.data.status
-                            Log.d(TAG, "getNearbyRepairShops suk: ${result.data.results}")
-                            if (result.data.results != null) {
-                                Log.d(TAG, "getNearbyRepairShops suk: $message")
-                                val places = result.data.results
-                                places?.forEach {
-                                    val latLng = LatLng(it.geometry.location.lat, it.geometry.location.lng)
-                                    mMap.addMarker(MarkerOptions().position(latLng).title(it.name))
-                                }
-                                val cameraZoom = 15f
-                                val userLocation = LatLng(lat, lon)
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, cameraZoom))
-                                showToast(message)
-                            } else {
-                                Log.d(SignupActivity.TAG, "getNearbyRepairShops err: $message ,")
-                                showToast(message)
-                            }
+                            carRepairResult.data.results.let { combinedResults.addAll(it) }
                         }
-
                         is NetResult.Error -> {
-                            Log.d(SignupActivity.TAG, "onCreate err failed net:  ${result.error}")
-                            showToast(result.error)
+                            showToast(carRepairResult.error)
                         }
-
-
+                        else -> {}
                     }
                 }
-            }
 
+                if (ketokMagicResult != null) {
+                    when (ketokMagicResult) {
+                        is NetResult.Success -> {
+                            ketokMagicResult.data.results.let { combinedResults.addAll(it) }
+                        }
+                        is NetResult.Error -> {
+                            showToast(ketokMagicResult.error)
+                        }
+                        else -> {}
+                    }
+                }
+
+                if (combinedResults.isNotEmpty()) {
+                    combinedResults.forEach {
+                        val latLng = LatLng(it.geometry.location.lat, it.geometry.location.lng)
+                        mMap.addMarker(MarkerOptions().position(latLng).title(it.name))
+                    }
+                    val cameraZoom = 15f
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, cameraZoom))
+                    showToast("Found ${combinedResults.size} places")
+                }
+            }
+        }
     }
 
-//    private fun getApiKey(context: Context): String {
-//        val applicationInfo = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
-//        val bundle = applicationInfo.metaData
-//        return bundle.getString("com.google.android.geo.API_KEY") ?: ""
-//    }
 
     private fun setMapStyle() {
         try {
