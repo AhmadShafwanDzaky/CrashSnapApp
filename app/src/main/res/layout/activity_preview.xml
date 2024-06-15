@@ -31,13 +31,11 @@
         android:id="@+id/previewImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="0dp"
         android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topAppBarLayout"
-        app:srcCompat="@drawable/ic_photo_size_select_actual_24"
-        app:tint="@color/md_theme_primary"/>
+        app:srcCompat="@drawable/ic_photo_size_select_actual_24" />
 
 
     <androidx.appcompat.widget.AppCompatButton

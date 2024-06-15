@@ -6,13 +6,13 @@
     android:background="@drawable/shape_bottomsheet">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        android:layout_width="64dp"
+        android:layout_width="32dp"
         android:layout_height="5dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        android:background="@color/gray"/>
+        android:background="@color/quantum_grey"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"

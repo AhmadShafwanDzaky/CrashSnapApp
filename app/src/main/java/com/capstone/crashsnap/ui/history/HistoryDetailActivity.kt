@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.capstone.crashsnap.databinding.ActivityHistoryDetailBinding
+import com.capstone.crashsnap.ui.history.historylist.HistoryListActivity
 
 class HistoryDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHistoryDetailBinding
@@ -20,6 +21,6 @@ class HistoryDetailActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_STORY_ID = "extra_story_id"
+        const val EXTRA_HISTORY_ID = "extra_history_id"
     }
 }

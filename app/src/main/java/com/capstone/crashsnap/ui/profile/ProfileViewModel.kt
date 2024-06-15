@@ -1,4 +1,4 @@
-package com.capstone.crashsnap.ui.auth
+package com.capstone.crashsnap.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,15 +8,11 @@ import com.capstone.crashsnap.data.Repository
 import com.capstone.crashsnap.data.UserModel
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val repository: Repository): ViewModel() {
+class ProfileViewModel(private val repository: Repository) : ViewModel() {
 
-    fun signup(name: String, email: String, password: String) =
-        repository.signup(name, email, password)
-    fun login(email: String, password: String) = repository.login(email, password)
-
-    fun saveSession(token: String, name: String, email: String) {
+    fun logout() {
         viewModelScope.launch {
-            repository.saveSession(token, name, email)
+            repository.logout()
         }
     }
 
