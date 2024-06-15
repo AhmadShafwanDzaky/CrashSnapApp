@@ -42,4 +42,9 @@
     <string name="expert_tips">Tips Ahli</string>
     <string name="preview_image">Pratinjau Gambar</string>
     <string name="analyze_button_text">Analisa</string>
+    <string name="date" translatable="false">dd/mm/yyyy</string>
+    <string name="empty_history2">Anda bisa memulai dengan klik button di kanan bawah</string>
+    <string name="history">Riwayat</string>
+    <string name="OK">Oke</string>
+    <string name="predicted_cost">Prediksi Harga</string>
 </resources>
