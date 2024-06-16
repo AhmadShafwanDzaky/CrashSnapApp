@@ -35,12 +35,12 @@ class SectionsPageAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: DataItem) {
             item.result.forEach { res ->
-                val damageString = res.damageDetected.joinToString("\n")
+                val damageString = res.damageDetected?.joinToString("\n")
                 binding.tvItemDescription.text = damageString
-                val costRangeList = res.costPredict.map { cost ->
-                    "Rp ${cost.minCost} - Rp ${cost.maxCost}"
+                val costRangeList = res.costPredict?.map { cost ->
+                    "Rp ${cost?.minCost} - Rp ${cost?.maxCost}"
                 }
-                val costRangeString = costRangeList.joinToString(", ")
+                val costRangeString = costRangeList?.joinToString(", ")
                 binding.tvItemTitle.text = costRangeString
                 Glide.with(itemView.context)
                     .load(res.imageUrl)
