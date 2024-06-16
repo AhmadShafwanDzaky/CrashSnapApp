@@ -48,4 +48,19 @@
     <string name="OK">Oke</string>
     <string name="predicted_cost">Prediksi Harga</string>
     <string name="back_home_button_text">Ke beranda</string>
+    <string name="headerTips1"><![CDATA[Segera ke Tempat Aman & Hubungi 112]]></string>
+    <string name="headerTips2"><![CDATA[Dokumentasikan Segalanya]]></string>
+    <string name="headerTips3"><![CDATA[Jangan Akui Kesalahan]]></string>
+    <string name="headerTips4"><![CDATA[Dapatkan Perhatian Medis]]></string>
+    <string name="headerTips5"><![CDATA[Temukan Bengkel Mobil]]></string>
+    <string name="headerTips6"><![CDATA[Hubungi Perusahaan Asuransi Anda]]></string>
+    <string name="headerTips7"><![CDATA[Jika ditanggung oleh asuransi Anda, pastikan suku cadang penggantinya baru.]]></string>
+    <string name="descTips1">Hal pertama yang harus dilakukan setelah mengalami kecelakaan: Menjauhlah dari lalu lintas lain jika Anda mampu secara fisik. Dari sana, Anda mencari bantuan dan harus menghubungi polisi.</string>
+    <string name="descTips2">Pastikan untuk berkomunikasi dengan pengemudi lain dan kumpulkan informasi mereka, termasuk nama, nomor plat, alamat, nomor telepon, dan informasi asuransi. Verifikasi informasi mereka dengan meminta untuk melihat SIM mereka. Ini juga mencakup semua kendaraan yang terlibat dalam kecelakaan dan cedera fisik apa pun.</string>
+    <string name="descTips3">Jangan mengakui kesalahan atau menyalahkan orang lain di tempat kejadian. Usahakan ceritakan semuanya secara jujur.  Biarkan polisi menentukan siapa yang salah.</string>
+    <string name="descTips4">Bahkan jika Anda tidak melihat cedera segera setelah kecelakaan, dapatkan bantuan medis. Adrenalin dapat menutupi cedera. Jika terdapat luka yang terlihat, segera dapatkan perawatan. Sekalipun Anda merasa baik-baik saja setelah kecelakaan kecil, sebaiknya temui dokter Anda untuk pemeriksaan.</string>
+    <string name="descTips5">Baik saat Anda berada di lokasi kecelakaan atau setelah kejadian, Anda dapat memilih bengkel yang Anda rasa nyaman, atau mencari bengkel di sekitar Anda.</string>
+    <string name="descTips6">Jika Anda memiliki asuransi, Anda perlu menghubungi perusahaan asuransi Anda untuk memulai klaim. Mereka juga akan dapat memberi Anda gambaran tentang langkah selanjutnya yang harus diambil dan apa yang diharapkan dari proses tersebut</string>
+    <string name="descTips7">Polis asuransi Anda akan menentukan apakah suku cadang aftermarket atau OEM dapat digunakan untuk perbaikan kendaraan Anda. Suku cadang aftermarket, yang dibuat oleh pabrikan berbeda, tidak selalu disukai. Jika mobil Anda disewa, polis Anda harus mencakup suku cadang OEM.</string>
+
 </resources>
