@@ -14,7 +14,7 @@ data class HistoryResponse(
 	val message: String
 )
 
-data class CostPredictItem(
+data class CostPredictItemHistory(
 
 	@field:SerializedName("imageUrl")
 	val imageUrl: String,
@@ -26,13 +26,13 @@ data class CostPredictItem(
 	val minCost: String
 )
 
-data class ResultItem(
+data class ResultItemHistory(
 
 	@field:SerializedName("damageDetected")
 	val damageDetected: List<String>,
 
 	@field:SerializedName("costPredict")
-	val costPredict: List<CostPredictItem>,
+	val costPredict: List<CostPredictItemHistory>,
 
 	@field:SerializedName("imageUrl")
 	val imageUrl: String
@@ -41,7 +41,7 @@ data class ResultItem(
 data class DataItem(
 
 	@field:SerializedName("result")
-	val result: List<ResultItem>,
+	val result: List<ResultItemHistory>,
 
 	@field:SerializedName("createdAt")
 	val createdAt: String,
