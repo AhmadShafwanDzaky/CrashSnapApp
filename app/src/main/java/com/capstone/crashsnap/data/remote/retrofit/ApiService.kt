@@ -4,8 +4,10 @@ import com.capstone.crashsnap.data.remote.request.LoginRequest
 import com.capstone.crashsnap.data.remote.request.SignupRequest
 import com.capstone.crashsnap.data.remote.response.HistoryResponse
 import com.capstone.crashsnap.data.remote.response.LoginResponse
+import com.capstone.crashsnap.data.remote.response.FileUploadResponse
 import com.capstone.crashsnap.data.remote.response.NearbyPlaceResponse
 import com.capstone.crashsnap.data.remote.response.SignupResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -38,4 +40,9 @@ interface ApiService {
         @Query("radius") radius: Int,
         @Query("key") apiKey: String
     ): Call<NearbyPlaceResponse>
+    @Multipart
+    @POST("api/predictions/cost")
+    suspend fun uploadImage(
+        @Part file: MultipartBody.Part
+    ): FileUploadResponse
 }
