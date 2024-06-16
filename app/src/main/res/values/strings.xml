@@ -47,4 +47,5 @@
     <string name="history">Riwayat</string>
     <string name="OK">Oke</string>
     <string name="predicted_cost">Prediksi Harga</string>
+    <string name="back_home_button_text">Ke beranda</string>
 </resources>

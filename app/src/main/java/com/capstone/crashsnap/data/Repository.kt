@@ -1,15 +1,20 @@
 package com.capstone.crashsnap.data
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.liveData
 import com.capstone.crashsnap.data.remote.request.LoginRequest
 import com.capstone.crashsnap.data.remote.request.SignupRequest
+import com.capstone.crashsnap.data.remote.response.FileUploadResponse
 import com.capstone.crashsnap.data.remote.response.HistoryResponse
 import com.capstone.crashsnap.data.remote.response.LoginResponse
 import com.capstone.crashsnap.data.remote.response.NearbyPlaceResponse
 import com.capstone.crashsnap.data.remote.response.SignupResponse
+import com.capstone.crashsnap.data.remote.retrofit.ApiConfig
 import com.capstone.crashsnap.data.remote.retrofit.ApiService
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -17,9 +22,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
+import java.io.File
 
 class Repository private constructor(
     private val userPreference: UserPreference,
@@ -45,7 +55,6 @@ class Repository private constructor(
     suspend fun logout() {
         userPreference.logout()
     }
-
 
 
     fun getAllHistory(token: String): LiveData<NetResult<HistoryResponse>> {
@@ -107,7 +116,6 @@ class Repository private constructor(
     }
 
 
-
     fun login(
         email: String,
         password: String
@@ -126,7 +134,7 @@ class Repository private constructor(
                 response: Response<LoginResponse>
             ) {
                 val res = response.body()
-                CoroutineScope(Dispatchers.Main).launch{
+                CoroutineScope(Dispatchers.Main).launch {
                     if (response.isSuccessful) {
                         if (res != null) {
                             saveSession(res.loginResult.token, res.loginResult.displayName, email)
@@ -186,8 +194,6 @@ class Repository private constructor(
     }
 
 
-
-
     fun nearbyPlaces(
         type: String,
         location: String,
@@ -216,6 +222,26 @@ class Repository private constructor(
             }
         })
         return resultNearbyPlace
+    }
+
+    fun uploadImage(imageFile: File) = liveData {
+        emit(NetResult.Loading)
+        val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+        val multipartBody = MultipartBody.Part.createFormData(
+            "image",
+            imageFile.name,
+            requestImageFile
+        )
+        try {
+            val successResponse = apiService.uploadImage(multipartBody)
+            emit(NetResult.Success(successResponse))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, FileUploadResponse::class.java)
+            emit(errorResponse.message?.let { NetResult.Error(it) })
+        } catch (e: Exception) {
+            Log.e("Upload Image", "Unexpected error", e)
+        }
     }
 
 

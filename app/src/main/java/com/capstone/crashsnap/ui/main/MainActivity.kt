@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
@@ -40,32 +41,39 @@ class MainActivity : AppCompatActivity() {
     private lateinit var name: String
     private var oldResult: NetResult<HistoryResponse>? = null
     private var oldData: List<DataItem>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupObservers()
+        setupViews()
+        getHistory()
+    }
+
+    private fun setupObservers() {
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
-
             name = user.name
             binding.tvName.text = name
+            Log.d("Username", name)
         }
+    }
 
-
-        val layoutManager = LinearLayoutManager(this)
-        binding.rvHistory.layoutManager = layoutManager
+    private fun setupViews() {
+        binding.rvHistory.layoutManager = LinearLayoutManager(this)
         if (!allPermissionsGranted()) {
             requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
 
         binding.tvSeeAllHistory.setOnClickListener {
             val moveToHistory = Intent(this, HistoryListActivity::class.java)
-            viewModel.getSession().observe(this) {
-                moveToHistory.putExtra(EXTRA_TOKEN_HISTORYLIST, it.token)
+            viewModel.getSession().observe(this) { user ->
+                moveToHistory.putExtra(EXTRA_TOKEN_HISTORYLIST, user.token)
             }
             startActivity(moveToHistory)
         }
@@ -73,98 +81,73 @@ class MainActivity : AppCompatActivity() {
         binding.topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.profile -> {
-                    val moveToProfile = Intent(this, ProfileActivity::class.java)
-                    startActivity(moveToProfile)
+                    startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
-
                 else -> false
             }
         }
+
         binding.fab.setOnClickListener {
             showBottomSheet()
         }
 
         binding.repairShopButton.setOnClickListener {
-            val moveToMaps = Intent(this, MapsActivity::class.java)
-            startActivity(moveToMaps)
+            startActivity(Intent(this, MapsActivity::class.java))
         }
 
         binding.expertTipsButton.setOnClickListener {
-            val moveToTips = Intent(this, TipsActivity::class.java)
-            startActivity(moveToTips)
-        }
-
-        viewModel.getSession().observe(this){
-            getHistory()
+            startActivity(Intent(this, TipsActivity::class.java))
         }
 
         binding.layoutRefresh.setColorSchemeResources(R.color.redmaroon_normal)
-
         binding.layoutRefresh.setOnRefreshListener {
             getHistory()
         }
-
-
     }
 
     private fun getHistory() {
         val extraToken = intent.getStringExtra(EXTRA_TOKEN).toString()
         viewModel.getSession().observe(this) { user ->
-            var token = user.token
-            if (token == null) {
-                token = extraToken
-            }
+            var token = user.token ?: extraToken
             viewModel.getHistory(token).observe(this) { result ->
-                if (result == oldResult) {
-                    return@observe
-                }
+                if (result == oldResult) return@observe
                 oldResult = result
-                when (result) {
-                    is NetResult.Success -> {
-                        binding.layoutRefresh.isRefreshing = false
-                        if (result.data.data == oldData) {
-                            return@observe
-                        }
-                        oldData = result.data.data
-                        if (result.data.data.isEmpty()) {
-                            binding.tvEmpty.visibility = View.VISIBLE
-                            binding.tvEmpty2.visibility = View.VISIBLE
-                        } else {
-                            binding.tvEmpty.visibility = View.GONE
-                            binding.tvEmpty2.visibility = View.GONE
-                        }
-                        val adapter = SectionsPageAdapter()
-                        adapter.submitList(result.data.data)
-                        binding.rvHistory.adapter = adapter
-
-                    }
-
-                    is NetResult.Error -> {
-                        binding.layoutRefresh.isRefreshing = false
-                        if (result.error.isNotEmpty()){
-                            binding.tvEmpty.visibility = View.VISIBLE
-                            binding.tvEmpty2.visibility = View.VISIBLE
-                        }else {
-                            binding.tvEmpty.visibility = View.GONE
-                            binding.tvEmpty2.visibility = View.GONE
-                        }
-                        val adapter = SectionsPageAdapter()
-                        binding.rvHistory.adapter = adapter
-                        val errorMessage: String = result.error
-                        showToast(errorMessage)
-                    }
-
-                    is NetResult.Loading -> {
-                        binding.layoutRefresh.isRefreshing = true
-                    }
-
-                    else -> {}
-                }
+                handleHistoryResult(result)
             }
         }
     }
 
+    private fun handleHistoryResult(result: NetResult<HistoryResponse>) {
+        when (result) {
+            is NetResult.Success -> {
+                binding.layoutRefresh.isRefreshing = false
+                if (result.data.data == oldData) return
+                oldData = result.data.data
+                if (result.data.data.isEmpty()) {
+                    binding.tvEmpty.visibility = View.VISIBLE
+                    binding.tvEmpty2.visibility = View.VISIBLE
+                } else {
+                    binding.tvEmpty.visibility = View.GONE
+                    binding.tvEmpty2.visibility = View.GONE
+                }
+                val adapter = SectionsPageAdapter()
+                adapter.submitList(result.data.data)
+                binding.rvHistory.adapter = adapter
+            }
+            is NetResult.Error -> {
+                binding.layoutRefresh.isRefreshing = false
+                binding.tvEmpty.visibility = if (result.error.isNotEmpty()) View.VISIBLE else View.GONE
+                binding.tvEmpty2.visibility = if (result.error.isNotEmpty()) View.VISIBLE else View.GONE
+                binding.rvHistory.adapter = SectionsPageAdapter()
+                showToast(result.error)
+            }
+            is NetResult.Loading -> {
+                binding.layoutRefresh.isRefreshing = true
+            }
+            else -> {}
+        }
+    }
 
     private fun startGallery() {
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
@@ -207,24 +190,17 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
-            if (isGranted) {
-                showToast(getString(R.string.permission_success))
-            } else {
-                showToast(getString(R.string.permission_err))
-            }
+            showToast(if (isGranted) getString(R.string.permission_success) else getString(R.string.permission_err))
         }
-
 
     private fun showBottomSheet() {
         val dialogView = layoutInflater.inflate(R.layout.bottomsheet, null)
         val dialog = BottomSheetDialog(this)
-        val galleryGroup = dialogView.findViewById<View>(R.id.galleryGroup)
-        val cameraGroup = dialogView.findViewById<View>(R.id.cameraGroup)
-        galleryGroup.setOnClickListener {
+        dialogView.findViewById<View>(R.id.galleryGroup).setOnClickListener {
             startGallery()
             dialog.dismiss()
         }
-        cameraGroup.setOnClickListener {
+        dialogView.findViewById<View>(R.id.cameraGroup).setOnClickListener {
             startCamera()
             dialog.dismiss()
         }
@@ -232,11 +208,9 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-
 
     companion object {
         const val EXTRA_NAME = "extra_name"

@@ -8,6 +8,7 @@ import com.capstone.crashsnap.ui.auth.AuthViewModel
 import com.capstone.crashsnap.ui.history.historylist.HistoryListViewModel
 import com.capstone.crashsnap.ui.main.MainViewModel
 import com.capstone.crashsnap.ui.maps.MapsViewModel
+import com.capstone.crashsnap.ui.preview.PreviewViewModel
 import com.capstone.crashsnap.ui.profile.ProfileViewModel
 import com.dicoding.picodiploma.loginwithanimation.di.Injection
 
@@ -30,6 +31,9 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.N
             }
             modelClass.isAssignableFrom(HistoryListViewModel::class.java) -> {
                 HistoryListViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(PreviewViewModel::class.java) -> {
+                PreviewViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
