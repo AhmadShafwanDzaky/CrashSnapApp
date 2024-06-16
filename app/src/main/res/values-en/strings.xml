@@ -47,4 +47,5 @@
     <string name="history">History</string>
     <string name="OK">Ok</string>
     <string name="predicted_cost">Predicted Cost</string>
+    <string name="back_home_button_text">Go to homepage</string>
 </resources>
