@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">CrashSnap</string>
     <string name="title_menu1">Welcome to the CrashSnap</string>
-    <string name="desc_menu1">CrashSnap is a mobile application that utilizes computer vision technology to estimate car repair costs after an accident. Simply take a picture of the damage, and our AI model will analyze the image to predict repair costs and recommend the nearest repair shops.</string>
+    <string name="desc_menu1">CrashSnap is a mobile application that utilizes computer vision technology to estimate car repair costs after an accident. Simply take a picture of the damage, and our AI model will analyze the image to predict repair costs.</string>
     <string name="title_menu2">Find the Right Action for You</string>
-    <string name="desc_menu2">CrashSnap also suggests appropriate repair actions either DIY fixes or professional repairs to guide you to make informed decisions after an incident.</string>
+    <string name="desc_menu2">CrashSnap also suggests actions to take after a crash and displays nearby repair shops, to help you make the right decisions after an incident.</string>
     <string name="lets_get_started">LET\'S GET STARTED</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -48,4 +48,18 @@
     <string name="OK">Ok</string>
     <string name="predicted_cost">Predicted Cost</string>
     <string name="back_home_button_text">Go to homepage</string>
+    <string name="headerTips1"><![CDATA[Get to Safety & Call 112]]></string>
+    <string name="headerTips2"><![CDATA[Document Everything]]></string>
+    <string name="headerTips3"><![CDATA[Don’t Admit Fault]]></string>
+    <string name="headerTips4"><![CDATA[ Get Medical Attention ]]></string>
+    <string name="headerTips5"><![CDATA[Find a Car Repair Shop]]></string>
+    <string name="headerTips6"><![CDATA[Contact Your Insurance Company]]></string>
+    <string name="headerTips7"><![CDATA[If it’s covered by your insurance, make sure replacement parts are new.]]></string>
+    <string name="descTips1">First things first after getting in an accident: Get out of the way of other traffic if you’re physically able to. From there, you seek help and should call the police.</string>
+    <string name="descTips2">Make sure to communicate with the other driver(s) and collect their details, including their name, license plate number, address, phone number, and insurance information. Verify their information by requesting to see their driver’s license. This also includes all vehicles involved in the accident and any physical injuries.</string>
+    <string name="descTips3">Do not admit fault or blame others at the scene. Try to explain everything honestly. Let the police decide who is at fault.</string>
+    <string name="descTips4">Even if you don\'t see injuries right after an accident, seek medical attention. Adrenaline can mask injuries. If there are visible injuries, get care immediately. Even if you feel fine after a minor crash, it\'s wise to see your doctor for a check-up.</string>
+    <string name="descTips5">Either while you’re at the scene of the accident or after the fact, you can choose a repair shop that you’re comfortable with, or search for one in your area.</string>
+    <string name="descTips6">If you have insurance you need to contact your insurance company to start a claim. They will also be able to give you an idea of the next steps to take and what to expect from the process.</string>
+    <string name="descTips7">If it’s covered by your insurance, make sure replacement parts are new.</string>
 </resources>
