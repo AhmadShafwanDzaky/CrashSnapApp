@@ -1,20 +1,18 @@
 package com.capstone.crashsnap.data
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.liveData
 import com.capstone.crashsnap.data.remote.request.LoginRequest
 import com.capstone.crashsnap.data.remote.request.SignupRequest
 import com.capstone.crashsnap.data.remote.response.FileUploadResponse
+import com.capstone.crashsnap.data.remote.response.HistoryDetailResponse
 import com.capstone.crashsnap.data.remote.response.HistoryResponse
 import com.capstone.crashsnap.data.remote.response.LoginResponse
 import com.capstone.crashsnap.data.remote.response.NearbyPlaceResponse
 import com.capstone.crashsnap.data.remote.response.SignupResponse
-import com.capstone.crashsnap.data.remote.retrofit.ApiConfig
 import com.capstone.crashsnap.data.remote.retrofit.ApiService
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -134,7 +132,7 @@ class Repository private constructor(
                 response: Response<LoginResponse>
             ) {
                 val res = response.body()
-                CoroutineScope(Dispatchers.Main).launch {
+                CoroutineScope(Dispatchers.Main).launch{
                     if (response.isSuccessful) {
                         if (res != null) {
                             saveSession(res.loginResult.token, res.loginResult.displayName, email)
@@ -194,6 +192,8 @@ class Repository private constructor(
     }
 
 
+
+
     fun nearbyPlaces(
         type: String,
         location: String,
@@ -224,7 +224,7 @@ class Repository private constructor(
         return resultNearbyPlace
     }
 
-    fun uploadImage(imageFile: File) = liveData {
+    fun uploadImage(token: String, imageFile: File) = liveData {
         emit(NetResult.Loading)
         val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
         val multipartBody = MultipartBody.Part.createFormData(
@@ -233,7 +233,7 @@ class Repository private constructor(
             requestImageFile
         )
         try {
-            val successResponse = apiService.uploadImage(multipartBody)
+            val successResponse = apiService.uploadImage("Bearer $token", multipartBody)
             emit(NetResult.Success(successResponse))
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
@@ -241,6 +241,64 @@ class Repository private constructor(
             emit(errorResponse.message?.let { NetResult.Error(it) })
         } catch (e: Exception) {
             Log.e("Upload Image", "Unexpected error", e)
+        }
+    }
+
+    fun getHistoryDetail(token:String, id: String) = liveData {
+        emit(NetResult.Loading)
+        try {
+            Log.d("repo detail", "getHistoryDetail: $token")
+            val response = apiService.getHistoryDetail("Bearer $token", id)
+            emit(NetResult.Success(response))
+        } catch (e: HttpException) {
+            Log.d("repo detail", "getHistoryDetail:http $token")
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, HistoryDetailResponse::class.java)
+            emit(errorResponse.message?.let { NetResult.Error(it) })
+        } catch (e: Exception) {
+            Log.e("History Detail", "Unexpected error", e)
+        }
+    }
+
+    fun deleteHistoryId(token:String, id: String) = liveData {
+        emit(NetResult.Loading)
+        try {
+            val response = apiService.deleteHistoryId("Bearer $token", id)
+            emit(NetResult.Success(response))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, HistoryDetailResponse::class.java)
+            emit(errorResponse.message?.let { NetResult.Error(it) })
+        } catch (e: Exception) {
+            Log.e("History Detail", "Unexpected error", e)
+        }
+    }
+
+    fun getHistory(token:String) = liveData {
+        emit(NetResult.Loading)
+        try {
+            val response = apiService.getHistory("Bearer $token")
+            emit(NetResult.Success(response))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, HistoryResponse::class.java)
+            emit(errorResponse.message?.let { NetResult.Error(it) })
+        } catch (e: Exception) {
+            Log.e("History", "Unexpected error", e)
+        }
+    }
+
+    fun getAllHistory(token:String) = liveData {
+        emit(NetResult.Loading)
+        try {
+            val response = apiService.getAllHistory("Bearer $token")
+            emit(NetResult.Success(response))
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, HistoryResponse::class.java)
+            emit(errorResponse.message?.let { NetResult.Error(it) })
+        } catch (e: Exception) {
+            Log.e("History", "Unexpected error", e)
         }
     }
 
