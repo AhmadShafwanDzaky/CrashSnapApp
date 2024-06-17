@@ -1,3 +1,4 @@
+
 package com.capstone.crashsnap.data
 
 import android.content.Context
@@ -16,7 +17,6 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
 
-    fun getToken(): Flow<String?> = dataStore.data.map { it[TOKEN_KEY] }
 
     suspend fun saveSession(token: String, name: String, email: String) {
         dataStore.edit { preferences ->
