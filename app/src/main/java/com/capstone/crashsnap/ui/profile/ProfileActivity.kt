@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.viewModels
 import com.capstone.crashsnap.ViewModelFactory
 import com.capstone.crashsnap.databinding.ActivityProfileBinding
@@ -21,7 +22,10 @@ class ProfileActivity : AppCompatActivity() {
 
         viewModel.getSession().observe(this) { user ->
             if (!user.isLogin) {
-                startActivity(Intent(this, LoginActivity::class.java))
+                val moveToLogin = Intent(this, LoginActivity::class.java).apply {
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                startActivity(moveToLogin)
                 finish()
             }
 
