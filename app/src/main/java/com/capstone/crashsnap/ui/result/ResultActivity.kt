@@ -23,12 +23,13 @@ class ResultActivity : AppCompatActivity() {
         val imageUri = Uri.parse(intent.getStringExtra(EXTRA_IMAGE_STRING))
         val classificationResult = intent.getSerializableExtra(EXTRA_CLASSIFICATION_RESULT) as? Data
 
-        binding.previewImageView.setImageURI(imageUri)
+//        binding.previewImageView.setImageURI(imageUri)
         classificationResult?.let {
-//            Glide.with(this)
-//                .load(imagePrediction(it))
-//                .into(binding.previewImageView)
+            Glide.with(this)
+                .load(imagePrediction(it))
+                .into(binding.previewImageView)
             Log.d("Image URL", imagePrediction(it))
+            Log.d("Image URI", imageUri.toString())
             binding.tvCarDamage.text = resultDescription(it)
             binding.tvDescription.text = costPrediction(it)
         }
@@ -80,10 +81,7 @@ class ResultActivity : AppCompatActivity() {
 
         data.result?.forEach { resultItem ->
             resultItem?.let {
-                stringBuilder.append("Damage Detected:\n")
-                it.imageUrl?.forEach { damage ->
-                    stringBuilder.append("- $damage\n")
-                }
+                stringBuilder.append(it.imageUrl)
             }
         }
 
