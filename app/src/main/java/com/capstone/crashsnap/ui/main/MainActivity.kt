@@ -23,11 +23,13 @@ import com.capstone.crashsnap.data.remote.response.HistoryResponse
 import com.capstone.crashsnap.databinding.ActivityMainBinding
 import com.capstone.crashsnap.getImageUri
 import com.capstone.crashsnap.ui.auth.LoginActivity
+import com.capstone.crashsnap.ui.history.historydetail.HistoryDetailActivity.Companion.EXTRA_TOKEN_DETAIL
 import com.capstone.crashsnap.ui.history.historylist.HistoryListActivity
 import com.capstone.crashsnap.ui.history.historylist.HistoryListActivity.Companion.EXTRA_TOKEN_HISTORYLIST
 import com.capstone.crashsnap.ui.maps.MapsActivity
 import com.capstone.crashsnap.ui.preview.PreviewActivity
 import com.capstone.crashsnap.ui.preview.PreviewActivity.Companion.EXTRA_IMAGE_STRING
+import com.capstone.crashsnap.ui.preview.PreviewActivity.Companion.EXTRA_TOKEN_PREVIEW
 import com.capstone.crashsnap.ui.profile.ProfileActivity
 import com.capstone.crashsnap.ui.tips.TipsActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -47,9 +49,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        getHistory()
         setupObservers()
         setupViews()
-        getHistory()
     }
 
     private fun setupObservers() {
@@ -107,13 +109,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getHistory() {
-        val extraToken = intent.getStringExtra(EXTRA_TOKEN).toString()
+        var extraToken = intent.getStringExtra(EXTRA_TOKEN).toString()
+        intent.putExtra(EXTRA_TOKEN_DETAIL,extraToken)
         viewModel.getSession().observe(this) { user ->
+            if (extraToken.isEmpty()){
+                extraToken = user.token
+            }
             var token = user.token ?: extraToken
             viewModel.getHistory(token).observe(this) { result ->
                 if (result == oldResult) return@observe
                 oldResult = result
-                handleHistoryResult(result)
+                if (result != null) {
+                    handleHistoryResult(result)
+                }
             }
         }
     }
@@ -176,6 +184,7 @@ class MainActivity : AppCompatActivity() {
         if (isSuccess) {
             val intent = Intent(this, PreviewActivity::class.java)
             intent.putExtra(EXTRA_IMAGE_STRING, currentImageUri.toString())
+            intent.putExtra(EXTRA_TOKEN_PREVIEW, intent.getStringExtra(EXTRA_TOKEN).toString())
             startActivity(intent)
         }
     }
@@ -210,6 +219,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getHistory()
     }
 
     companion object {
