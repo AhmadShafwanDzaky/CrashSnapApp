@@ -2,9 +2,10 @@ package com.capstone.crashsnap.data.remote.retrofit
 
 import com.capstone.crashsnap.data.remote.request.LoginRequest
 import com.capstone.crashsnap.data.remote.request.SignupRequest
+import com.capstone.crashsnap.data.remote.response.FileUploadResponse
+import com.capstone.crashsnap.data.remote.response.HistoryDetailResponse
 import com.capstone.crashsnap.data.remote.response.HistoryResponse
 import com.capstone.crashsnap.data.remote.response.LoginResponse
-import com.capstone.crashsnap.data.remote.response.FileUploadResponse
 import com.capstone.crashsnap.data.remote.response.NearbyPlaceResponse
 import com.capstone.crashsnap.data.remote.response.SignupResponse
 import okhttp3.MultipartBody
@@ -24,14 +25,14 @@ interface ApiService {
     ): Call<LoginResponse>
 
     @GET("/api/predictions")
-    fun getHistory(
+    suspend fun getHistory(
         @Header("Authorization") token: String,
-    ): Call<HistoryResponse>
+    ): HistoryResponse
 
     @GET("/api/predictions")
-    fun getAllHistory(
+    suspend fun getAllHistory(
         @Header("Authorization") token: String,
-    ): Call<HistoryResponse>
+    ): HistoryResponse
 
     @GET("nearbysearch/json")
     fun NearbyPlaces(
@@ -40,9 +41,23 @@ interface ApiService {
         @Query("radius") radius: Int,
         @Query("key") apiKey: String
     ): Call<NearbyPlaceResponse>
+
     @Multipart
     @POST("api/predictions/cost")
     suspend fun uploadImage(
+        @Header("Authorization") token: String,
         @Part file: MultipartBody.Part
     ): FileUploadResponse
+
+    @GET("/api/predictions/{id}/detail")
+    suspend fun getHistoryDetail(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): HistoryDetailResponse
+
+    @DELETE("/api/predictions/{id}/delete")
+    suspend fun deleteHistoryId(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): HistoryDetailResponse
 }
