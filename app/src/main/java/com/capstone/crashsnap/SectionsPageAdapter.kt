@@ -16,7 +16,8 @@ import com.bumptech.glide.Glide
 import com.capstone.crashsnap.data.remote.response.DataItem
 import com.capstone.crashsnap.data.remote.response.HistoryResponse
 import com.capstone.crashsnap.databinding.ItemHistoryBinding
-import com.capstone.crashsnap.ui.history.HistoryDetailActivity
+import com.capstone.crashsnap.ui.history.historydetail.HistoryDetailActivity
+import com.capstone.crashsnap.ui.history.historydetail.HistoryDetailActivity.Companion.EXTRA_HISTORY_ID
 
 class SectionsPageAdapter :
     ListAdapter<DataItem, SectionsPageAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -54,7 +55,7 @@ class SectionsPageAdapter :
             binding.root.setOnClickListener {
                 val context = it.context
                 val intent = Intent(context, HistoryDetailActivity::class.java)
-                intent.putExtra(HistoryDetailActivity.EXTRA_HISTORY_ID, item.id)
+                intent.putExtra(EXTRA_HISTORY_ID, item.id)
                 context.startActivity(intent)
             }
 
