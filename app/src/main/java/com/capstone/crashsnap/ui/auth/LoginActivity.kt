@@ -3,13 +3,9 @@ package com.capstone.crashsnap.ui.auth
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import com.capstone.crashsnap.R
 import com.capstone.crashsnap.ViewModelFactory
@@ -19,7 +15,6 @@ import com.capstone.crashsnap.ui.main.MainActivity
 import com.capstone.crashsnap.ui.main.MainActivity.Companion.EXTRA_EMAIL
 import com.capstone.crashsnap.ui.main.MainActivity.Companion.EXTRA_NAME
 import com.capstone.crashsnap.ui.main.MainActivity.Companion.EXTRA_TOKEN
-import kotlinx.coroutines.runBlocking
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -64,8 +59,6 @@ class LoginActivity : AppCompatActivity() {
                         viewModel.saveSession(data.token, data.displayName, email )
                         if (!result.data.error) {
                             val moveToMain = Intent(this, MainActivity::class.java)
-                            moveToMain.flags =
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                             viewModel.saveSession(data.token, data.displayName, email )
                             moveToMain.putExtra(EXTRA_TOKEN, data.token)
                             moveToMain.putExtra(EXTRA_NAME, data.displayName)

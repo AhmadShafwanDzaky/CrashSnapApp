@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">CrashSnap</string>
     <string name="title_menu1">Selamat Datang di CrashSnap</string>
-    <string name="desc_menu1">CrashSnap adalah aplikasi mobile yang memanfaatkan teknologi visi komputer untuk memperkirakan biaya perbaikan mobil setelah kecelakaan. Cukup ambil gambar kerusakan, dan model AI kami akan menganalisis gambar untuk memprediksi biaya perbaikan dan merekomendasikan bengkel terdekat.</string>
+    <string name="desc_menu1">CrashSnap adalah aplikasi mobile yang memanfaatkan teknologi visi komputer untuk memperkirakan biaya perbaikan mobil setelah kecelakaan. Cukup ambil gambar kerusakan, dan model AI kami akan menganalisis gambar untuk memprediksi biaya perbaikan.</string>
     <string name="title_menu2">Temukan Tindakan yang Tepat untuk Anda</string>
-    <string name="desc_menu2">CrashSnap juga menyarankan tindakan perbaikan yang tepat, baik perbaikan DIY (Do It Yourself) atau perbaikan profesional, untuk membantu Anda membuat keputusan yang tepat setelah insiden.</string>
+    <string name="desc_menu2">CrashSnap juga menyarankan tindakan yang dilakukan setelah terjadi kecelakaan dan menampilkan bengkel terdekat, untuk membantu Anda membuat keputusan yang tepat setelah insiden.</string>
     <string name="lets_get_started">AYO MULAI</string>
     <string name="email">Email</string>
     <string name="password">Kata Sandi</string>
@@ -62,5 +62,4 @@
     <string name="descTips5">Baik saat Anda berada di lokasi kecelakaan atau setelah kejadian, Anda dapat memilih bengkel yang Anda rasa nyaman, atau mencari bengkel di sekitar Anda.</string>
     <string name="descTips6">Jika Anda memiliki asuransi, Anda perlu menghubungi perusahaan asuransi Anda untuk memulai klaim. Mereka juga akan dapat memberi Anda gambaran tentang langkah selanjutnya yang harus diambil dan apa yang diharapkan dari proses tersebut</string>
     <string name="descTips7">Polis asuransi Anda akan menentukan apakah suku cadang aftermarket atau OEM dapat digunakan untuk perbaikan kendaraan Anda. Suku cadang aftermarket, yang dibuat oleh pabrikan berbeda, tidak selalu disukai. Jika mobil Anda disewa, polis Anda harus mencakup suku cadang OEM.</string>
-
 </resources>

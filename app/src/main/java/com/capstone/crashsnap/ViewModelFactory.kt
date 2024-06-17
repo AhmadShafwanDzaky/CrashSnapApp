@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.crashsnap.data.Repository
 import com.capstone.crashsnap.ui.auth.AuthViewModel
+import com.capstone.crashsnap.ui.history.historydetail.HistoryDetailViewModel
 import com.capstone.crashsnap.ui.history.historylist.HistoryListViewModel
 import com.capstone.crashsnap.ui.main.MainViewModel
 import com.capstone.crashsnap.ui.maps.MapsViewModel
@@ -34,6 +35,9 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.N
             }
             modelClass.isAssignableFrom(PreviewViewModel::class.java) -> {
                 PreviewViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(HistoryDetailViewModel::class.java) -> {
+                HistoryDetailViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -43,6 +43,10 @@ class PreviewActivity : AppCompatActivity() {
         binding.analyzeButton.setOnClickListener {
             uploadImage()
         }
+
+        binding.topAppBar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
 
@@ -52,6 +56,7 @@ class PreviewActivity : AppCompatActivity() {
             putExtra(EXTRA_CLASSIFICATION_RESULT, classificationResult)
         }
         startActivity(intent)
+        finish()
     }
 
     private fun uploadImage() {
@@ -59,23 +64,29 @@ class PreviewActivity : AppCompatActivity() {
             val imageFile = uriToFile(uri, this)
             Log.d("Classification File", "showImage: ${imageFile.path}")
             showLoading(true)
+            val extraToken = intent.getStringExtra(EXTRA_TOKEN_PREVIEW).toString()
+            viewModel.getSession().observe(this){user ->
+                var token = user.token
+                if (token == null){
+                    token = extraToken
+                }
+                viewModel.uploadImage(token, imageFile).observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is NetResult.Loading -> {
+                                showLoading(true)
+                            }
 
-            viewModel.uploadImage(imageFile,).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is NetResult.Loading -> {
-                            showLoading(true)
-                        }
+                            is NetResult.Success -> {
+                                result.data.message?.let { showToast(it) }
+                                showLoading(false)
+                                startResultActivity(result.data.data)
+                            }
 
-                        is NetResult.Success -> {
-                            result.data.message?.let { showToast(it) }
-                            showLoading(false)
-                            startResultActivity(result.data.data)
-                        }
-
-                        is NetResult.Error -> {
-                            showToast(result.error)
-                            showLoading(false)
+                            is NetResult.Error -> {
+                                showToast(result.error)
+                                showLoading(false)
+                            }
                         }
                     }
                 }
@@ -91,6 +102,7 @@ class PreviewActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
     companion object {
+        const val EXTRA_TOKEN_PREVIEW = "extra_token_preview"
         const val EXTRA_IMAGE_STRING = "extra_image_string"
         const val EXTRA_CLASSIFICATION_RESULT = "extra_classification_result"
     }
