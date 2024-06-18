@@ -2,10 +2,13 @@ package com.capstone.crashsnap.ui.preview
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +19,8 @@ import com.capstone.crashsnap.databinding.ActivityPreviewBinding
 import com.capstone.crashsnap.data.remote.response.Data
 import com.capstone.crashsnap.data.remote.response.FileUploadResponse
 import com.capstone.crashsnap.data.remote.retrofit.ApiConfig
+import com.capstone.crashsnap.showAlertDialog
+import com.capstone.crashsnap.ui.auth.LoginActivity
 import com.capstone.crashsnap.ui.result.ResultActivity
 import com.capstone.crashsnap.uriToFile
 import com.google.gson.Gson
@@ -36,6 +41,23 @@ class PreviewActivity : AppCompatActivity() {
         binding = ActivityPreviewBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        viewModel.getSession().observe(this) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+        }
+
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.insetsController?.hide(WindowInsets.Type.statusBars())
+        } else {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        }
+
 
         imageUri = Uri.parse(intent.getStringExtra(EXTRA_IMAGE_STRING))
         binding.previewImageView.setImageURI(imageUri)
@@ -84,7 +106,13 @@ class PreviewActivity : AppCompatActivity() {
                             }
 
                             is NetResult.Error -> {
-                                showToast(result.error)
+                                if (result.error == "401") {
+                                    showAlertDialog(this) {
+                                        viewModel.logout()
+                                    }
+                                } else {
+                                    showToast(result.error)
+                                }
                                 showLoading(false)
                             }
                         }

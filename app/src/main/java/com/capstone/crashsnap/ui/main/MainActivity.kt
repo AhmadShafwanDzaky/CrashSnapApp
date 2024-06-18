@@ -1,6 +1,7 @@
 package com.capstone.crashsnap.ui.main
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -12,16 +13,21 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.crashsnap.R
 import com.capstone.crashsnap.SectionsPageAdapter
 import com.capstone.crashsnap.ViewModelFactory
 import com.capstone.crashsnap.data.NetResult
+import com.capstone.crashsnap.data.UserPreference
+import com.capstone.crashsnap.data.dataStore
 import com.capstone.crashsnap.data.remote.response.DataItem
 import com.capstone.crashsnap.data.remote.response.HistoryResponse
 import com.capstone.crashsnap.databinding.ActivityMainBinding
 import com.capstone.crashsnap.getImageUri
+import com.capstone.crashsnap.showAlertDialog
 import com.capstone.crashsnap.ui.auth.LoginActivity
 import com.capstone.crashsnap.ui.history.historydetail.HistoryDetailActivity.Companion.EXTRA_TOKEN_DETAIL
 import com.capstone.crashsnap.ui.history.historylist.HistoryListActivity
@@ -48,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         getHistory()
         setupObservers()
         setupViews()
@@ -127,6 +132,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleHistoryResult(result: NetResult<HistoryResponse>) {
+
         when (result) {
             is NetResult.Success -> {
                 binding.layoutRefresh.isRefreshing = false
@@ -145,10 +151,18 @@ class MainActivity : AppCompatActivity() {
             }
             is NetResult.Error -> {
                 binding.layoutRefresh.isRefreshing = false
+
+                if (result.error == "401") {
+                    showAlertDialog(this) {
+                        viewModel.logout()
+                    }
+                } else {
+                    showToast(result.error)
+                }
                 binding.tvEmpty.visibility = if (result.error.isNotEmpty()) View.VISIBLE else View.GONE
                 binding.tvEmpty2.visibility = if (result.error.isNotEmpty()) View.VISIBLE else View.GONE
                 binding.rvHistory.adapter = SectionsPageAdapter()
-                showToast(result.error)
+
             }
             is NetResult.Loading -> {
                 binding.layoutRefresh.isRefreshing = true
@@ -220,6 +234,7 @@ class MainActivity : AppCompatActivity() {
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
 
     override fun onResume() {
         super.onResume()

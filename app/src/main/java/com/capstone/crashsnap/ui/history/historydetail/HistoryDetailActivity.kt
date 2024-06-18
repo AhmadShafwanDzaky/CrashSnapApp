@@ -84,7 +84,13 @@ class HistoryDetailActivity : AppCompatActivity() {
 
                     is NetResult.Error -> {
                         showLoading(false)
-                        showToast(result.error)
+                        if (result.error == "401") {
+                            showAlertDialog(this) {
+                                viewModel.logout()
+                            }
+                        } else {
+                            showToast(result.error)
+                        }
                     }
 
                     is NetResult.Loading -> {

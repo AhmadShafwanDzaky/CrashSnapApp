@@ -1,5 +1,6 @@
 package com.capstone.crashsnap.ui.history.historylist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,8 @@ import com.capstone.crashsnap.data.NetResult
 import com.capstone.crashsnap.data.remote.response.DataItem
 import com.capstone.crashsnap.data.remote.response.HistoryResponse
 import com.capstone.crashsnap.databinding.ActivityHistoryListBinding
+import com.capstone.crashsnap.showAlertDialog
+import com.capstone.crashsnap.ui.auth.LoginActivity
 
 class HistoryListActivity : AppCompatActivity() {
     private val viewModel by viewModels<HistoryListViewModel> {
@@ -41,6 +44,12 @@ class HistoryListActivity : AppCompatActivity() {
             getAllHistory()
         }
 
+        viewModel.getSession().observe(this) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+        }
     }
 
     private fun getAllHistory() {
@@ -74,6 +83,13 @@ class HistoryListActivity : AppCompatActivity() {
 
                     is NetResult.Error -> {
                         binding.layoutRefresh.isRefreshing = false
+                        if (result.error == "401") {
+                            showAlertDialog(this) {
+                                viewModel.logout()
+                            }
+                        } else {
+                            showToast(result.error)
+                        }
                         if (result.error.isNotEmpty()){
                             binding.tvEmpty.visibility = View.VISIBLE
                         }else {
@@ -81,8 +97,6 @@ class HistoryListActivity : AppCompatActivity() {
                         }
                         val adapter = SectionsPageAdapter()
                         binding.rvHistory.adapter = adapter
-                        val errorMessage: String = result.error
-                        showToast(errorMessage)
                     }
 
                     is NetResult.Loading -> {
@@ -100,13 +114,10 @@ class HistoryListActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
 
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
+    override fun onResume() {
+        super.onResume()
+        getAllHistory()
     }
 
     companion object {
