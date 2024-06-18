@@ -41,6 +41,8 @@ android {
 }
 
 dependencies {
+    implementation ("com.github.MikeOrtiz:TouchImageView:1.4.1")
+
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     implementation("androidx.datastore:datastore-preferences:1.0.0")
