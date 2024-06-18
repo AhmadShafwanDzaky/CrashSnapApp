@@ -1,7 +1,10 @@
 package com.capstone.crashsnap
 
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -9,8 +12,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
+import com.capstone.crashsnap.ui.auth.LoginActivity
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -114,4 +119,38 @@ fun convertIsoDate(isoDateTime: String): String? {
     val date: Date? = isoFormat.parse(isoDateTime)
     val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return date?.let { dateFormat.format(it) }
+}
+
+fun convertIsoDateToFull(isoDateTime: String): String? {
+    val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+    val date: Date? = isoFormat.parse(isoDateTime)
+    val dateFormat = SimpleDateFormat("EEEE, d MMMM yyyy", Locale.getDefault())
+    return date?.let { dateFormat.format(it) }
+
+
+}
+
+
+fun showAlertDialog(
+    activity: Activity,
+    onDismissListener: ((DialogInterface) -> Unit)? = null
+) {
+    val alertDialogBuilder = AlertDialog.Builder(activity)
+    alertDialogBuilder.apply {
+        setTitle(R.string.invalid_token_title)
+        setMessage(R.string.invalid_token_msg)
+        setPositiveButton(R.string.OK) { dialog, _ ->
+            activity.finish()
+            dialog.dismiss()
+        }
+        setCancelable(false)
+        create().apply {
+            setOnDismissListener(onDismissListener?.let {
+                DialogInterface.OnDismissListener { dialog ->
+                    it(dialog)
+                }
+            })
+            show()
+        }
+    }
 }

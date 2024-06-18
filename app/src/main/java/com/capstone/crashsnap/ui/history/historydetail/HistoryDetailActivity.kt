@@ -1,17 +1,28 @@
 package com.capstone.crashsnap.ui.history.historydetail
 
+import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
+import com.capstone.crashsnap.R
 import com.capstone.crashsnap.ViewModelFactory
+import com.capstone.crashsnap.convertIsoDate
+import com.capstone.crashsnap.convertIsoDateToFull
 import com.capstone.crashsnap.data.NetResult
+import com.capstone.crashsnap.data.remote.response.DataDetail
 import com.capstone.crashsnap.data.remote.response.ResultItemDetail
 import com.capstone.crashsnap.databinding.ActivityHistoryDetailBinding
+import com.capstone.crashsnap.showAlertDialog
+import com.capstone.crashsnap.ui.auth.LoginActivity
+import com.capstone.crashsnap.ui.maps.MapsActivity
 import com.capstone.crashsnap.ui.preview.PreviewActivity
+import com.capstone.crashsnap.ui.tips.TipsActivity
 
 class HistoryDetailActivity : AppCompatActivity() {
     private val viewModel by viewModels<HistoryDetailViewModel> {
@@ -37,7 +48,24 @@ class HistoryDetailActivity : AppCompatActivity() {
             deleteHistoryId()
             finish()
         }
+
+        binding.repairShopButton.setOnClickListener {
+            startActivity(Intent(this, MapsActivity::class.java))
+        }
+
+        binding.expertTipsButton.setOnClickListener {
+            startActivity(Intent(this, TipsActivity::class.java))
+        }
+
+        viewModel.getSession().observe(this) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+        }
     }
+
+
 
     private fun deleteHistoryId() {
         val id = intent.getStringExtra(EXTRA_HISTORY_ID).toString()
@@ -51,12 +79,18 @@ class HistoryDetailActivity : AppCompatActivity() {
                 when (result) {
                     is NetResult.Success -> {
                         showLoading(false)
-                        showToast(result.data.message)
+                        showToast(getString(R.string.success_deleted))
                     }
 
                     is NetResult.Error -> {
                         showLoading(false)
-                        showToast(result.error)
+                        if (result.error == "401") {
+                            showAlertDialog(this) {
+                                viewModel.logout()
+                            }
+                        } else {
+                            showToast(result.error)
+                        }
                     }
 
                     is NetResult.Loading -> {
@@ -85,13 +119,15 @@ class HistoryDetailActivity : AppCompatActivity() {
                         showLoading(false)
                         val data = result.data.data
                         data.result.forEach { detail ->
-                            Log.d("History Detail", "Detail: $detail")
                             Glide.with(this)
                                 .load(detail.imageUrl)
                                 .into(binding.ivPhoto)
-                            binding.tvCarDamage.text = costPrediction(detail)
-                            binding.tvDescription.text = resultDescription(detail)
+                            binding.tvValueMinCost.text = minCost(detail)
+                            binding.tvValueMaxCost.text = maxCost(detail)
+                            binding.tvDamages.text = resultDescription(detail)
                         }
+                        binding.tvDate.text = getDate(data)
+                        binding.tvDamageTotal.text = totalDamage(data)
 
                     }
 
@@ -116,26 +152,57 @@ class HistoryDetailActivity : AppCompatActivity() {
     private fun resultDescription(data: ResultItemDetail): String {
         val stringBuilder = StringBuilder()
         data.let {
-            stringBuilder.append("Damage Detected:\n")
-            it.damageDetected.forEach { damage ->
-                stringBuilder.append("- $damage\n")
+            it.damageDetected.forEachIndexed { index, damage ->
+                stringBuilder.append("• $damage")
+                if (index != it.damageDetected.size - 1) {
+                    stringBuilder.append("\n")
+                }
             }
         }
         return stringBuilder.toString()
     }
 
-    private fun costPrediction(data: ResultItemDetail): String {
+
+
+    private fun minCost(data: ResultItemDetail): String {
         val stringBuilder = StringBuilder()
         data.let {
-            stringBuilder.append("\nCost Prediction:\n")
             it.costPredict.forEach { cost ->
-                stringBuilder.append("Min Cost: ${cost.minCost}\n")
-                stringBuilder.append("Max Cost: ${cost.maxCost}\n\n")
+                stringBuilder.append("Rp. ${cost.minCost}")
             }
         }
-
         return stringBuilder.toString()
     }
+
+    private fun maxCost(data: ResultItemDetail): String {
+        val stringBuilder = StringBuilder()
+        data.let {
+            it.costPredict.forEach { cost ->
+                stringBuilder.append("Rp. ${cost.maxCost}")
+            }
+        }
+        return stringBuilder.toString()
+    }
+
+    private fun totalDamage(data: DataDetail): String {
+        val stringBuilder = StringBuilder()
+        data.result.forEach {
+            val total = it.damageDetected.count()
+            stringBuilder.append("$total")
+        }
+        return stringBuilder.toString()
+    }
+
+    private fun getDate(data: DataDetail): String {
+        val stringBuilder = StringBuilder()
+        data.let {
+            val date = convertIsoDateToFull(it.createdAt)
+            stringBuilder.append("$date")
+        }
+        return stringBuilder.toString()
+    }
+
+
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE

@@ -39,7 +39,7 @@
     <string name="see_all">Lihat semua</string>
     <string name="detection_history">Riwayat</string>
     <string name="repair_shop">Bengkel</string>
-    <string name="expert_tips">Tips Ahli</string>
+    <string name="expert_tips">Tips Bermanfaat</string>
     <string name="preview_image">Pratinjau Gambar</string>
     <string name="analyze_button_text">Analisa</string>
     <string name="date" translatable="false">dd/mm/yyyy</string>
@@ -62,4 +62,15 @@
     <string name="descTips5">Baik saat Anda berada di lokasi kecelakaan atau setelah kejadian, Anda dapat memilih bengkel yang Anda rasa nyaman, atau mencari bengkel di sekitar Anda.</string>
     <string name="descTips6">Jika Anda memiliki asuransi, Anda perlu menghubungi perusahaan asuransi Anda untuk memulai klaim. Mereka juga akan dapat memberi Anda gambaran tentang langkah selanjutnya yang harus diambil dan apa yang diharapkan dari proses tersebut</string>
     <string name="descTips7">Polis asuransi Anda akan menentukan apakah suku cadang aftermarket atau OEM dapat digunakan untuk perbaikan kendaraan Anda. Suku cadang aftermarket, yang dibuat oleh pabrikan berbeda, tidak selalu disukai. Jika mobil Anda disewa, polis Anda harus mencakup suku cadang OEM.</string>
+    <string name="processed_image">Hasil Gambar</string>
+    <string name="full_date" translatable="false">EEEE, d MMMM yyyy</string>
+    <string name="damage_detected">Rusak Terdeteksi</string>
+    <string name="damages">- Kerusakan</string>
+    <string name="estimated_cost">Estimasi Biaya</string>
+    <string name="min_cost">Biaya Minimum</string>
+    <string name="cost">Rp 100.000</string>
+    <string name="max_cost">Biaya Maksimum</string>
+    <string name="invalid_token_title">Oh Tidak!</string>
+    <string name="invalid_token_msg">Sesi telah berakhir. Silakan masuk kembali.</string>
+    <string name="success_deleted">Data dihapus</string>
 </resources>

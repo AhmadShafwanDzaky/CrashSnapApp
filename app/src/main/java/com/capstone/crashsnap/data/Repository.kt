@@ -55,63 +55,65 @@ class Repository private constructor(
     }
 
 
-    fun getAllHistory(token: String): LiveData<NetResult<HistoryResponse>> {
-        resultAllHistory.value = NetResult.Loading
-        userPreference.getSession()
-        val bearerToken = "Bearer $token"
-        val client = apiService.getAllHistory(bearerToken)
-        client.enqueue(object : Callback<HistoryResponse> {
-            override fun onResponse(
-                call: Call<HistoryResponse>,
-                response: Response<HistoryResponse>
-            ) {
-                val res = response.body()
-                if (response.isSuccessful) {
-                    if (res != null) {
-                        resultAllHistory.value = NetResult.Success(res)
-                    }
-                } else {
-                    val errorResponse = response.errorBody()?.string()
-                    val errorBody = Gson().fromJson(errorResponse, LoginResponse::class.java)
-                    resultAllHistory.value = NetResult.Error(errorBody.message)
-                }
-            }
 
-            override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
-                resultAllHistory.value = NetResult.Error("fail ${t.message}")
-            }
-        })
-        return resultAllHistory
-    }
+//    fun getAllHistory(token: String): LiveData<NetResult<HistoryResponse>> {
+//        resultAllHistory.value = NetResult.Loading
+//        userPreference.getSession()
+//        val bearerToken = "Bearer $token"
+//        val client = apiService.getAllHistory(bearerToken)
+//        client.enqueue(object : Callback<HistoryResponse> {
+//            override fun onResponse(
+//                call: Call<HistoryResponse>,
+//                response: Response<HistoryResponse>
+//            ) {
+//                val res = response.body()
+//                if (response.isSuccessful) {
+//                    if (res != null) {
+//                        resultAllHistory.value = NetResult.Success(res)
+//                    }
+//                } else {
+//                    val errorResponse = response.errorBody()?.string()
+//                    val errorBody = Gson().fromJson(errorResponse, LoginResponse::class.java)
+//                    resultAllHistory.value = NetResult.Error(errorBody.message)
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
+//                resultAllHistory.value = NetResult.Error("fail ${t.message}")
+//            }
+//        })
+//        return resultAllHistory
+//    }
+//
+//    fun getHistory(token: String): LiveData<NetResult<HistoryResponse>> {
+//        resultHistory.value = NetResult.Loading
+//        userPreference.getSession()
+//        val bearerToken = "Bearer $token"
+//        val client = apiService.getHistory(bearerToken)
+//        client.enqueue(object : Callback<HistoryResponse> {
+//            override fun onResponse(
+//                call: Call<HistoryResponse>,
+//                response: Response<HistoryResponse>
+//            ) {
+//                val res = response.body()
+//                if (response.isSuccessful) {
+//                    if (res != null) {
+//                        resultHistory.value = NetResult.Success(res)
+//                    }
+//                } else {
+//                    val errorResponse = response.errorBody()?.string()
+//                    val errorBody = Gson().fromJson(errorResponse, LoginResponse::class.java)
+//                    resultHistory.value = NetResult.Error(errorBody.message)
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
+//                resultHistory.value = NetResult.Error("fail ${t.message}")
+//            }
+//        })
+//        return resultHistory
+//    }
 
-    fun getHistory(token: String): LiveData<NetResult<HistoryResponse>> {
-        resultHistory.value = NetResult.Loading
-        userPreference.getSession()
-        val bearerToken = "Bearer $token"
-        val client = apiService.getHistory(bearerToken)
-        client.enqueue(object : Callback<HistoryResponse> {
-            override fun onResponse(
-                call: Call<HistoryResponse>,
-                response: Response<HistoryResponse>
-            ) {
-                val res = response.body()
-                if (response.isSuccessful) {
-                    if (res != null) {
-                        resultHistory.value = NetResult.Success(res)
-                    }
-                } else {
-                    val errorResponse = response.errorBody()?.string()
-                    val errorBody = Gson().fromJson(errorResponse, LoginResponse::class.java)
-                    resultHistory.value = NetResult.Error(errorBody.message)
-                }
-            }
-
-            override fun onFailure(call: Call<HistoryResponse>, t: Throwable) {
-                resultHistory.value = NetResult.Error("fail ${t.message}")
-            }
-        })
-        return resultHistory
-    }
 
 
     fun login(
@@ -238,7 +240,11 @@ class Repository private constructor(
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, FileUploadResponse::class.java)
-            emit(errorResponse.message?.let { NetResult.Error(it) })
+            if (e.code() == 401) {
+                emit(NetResult.Error("${e.code()}"))
+            } else {
+                emit(errorResponse.message?.let { NetResult.Error(it) })
+            }
         } catch (e: Exception) {
             Log.e("Upload Image", "Unexpected error", e)
         }
@@ -254,7 +260,11 @@ class Repository private constructor(
             Log.d("repo detail", "getHistoryDetail:http $token")
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, HistoryDetailResponse::class.java)
-            emit(errorResponse.message?.let { NetResult.Error(it) })
+            if (e.code() == 401) {
+                emit(NetResult.Error("${e.code()}"))
+            } else {
+                emit(errorResponse.message.let { NetResult.Error(it) })
+            }
         } catch (e: Exception) {
             Log.e("History Detail", "Unexpected error", e)
         }
@@ -268,13 +278,17 @@ class Repository private constructor(
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, HistoryDetailResponse::class.java)
-            emit(errorResponse.message?.let { NetResult.Error(it) })
+            if (e.code() == 401) {
+                emit(NetResult.Error("${e.code()}"))
+            } else {
+                emit(errorResponse.message.let { NetResult.Error(it) })
+            }
         } catch (e: Exception) {
             Log.e("History Detail", "Unexpected error", e)
         }
     }
 
-    fun getHistory(token:String) = liveData {
+    fun getHistory(token: String) = liveData {
         emit(NetResult.Loading)
         try {
             val response = apiService.getHistory("Bearer $token")
@@ -282,9 +296,14 @@ class Repository private constructor(
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, HistoryResponse::class.java)
-            emit(errorResponse.message?.let { NetResult.Error(it) })
+            if (e.code() == 401) {
+                emit(NetResult.Error("${e.code()}"))
+            } else {
+                emit(errorResponse.message.let { NetResult.Error(it) })
+            }
         } catch (e: Exception) {
             Log.e("History", "Unexpected error", e)
+            emit(NetResult.Error("Unexpected error"))
         }
     }
 
@@ -296,7 +315,11 @@ class Repository private constructor(
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, HistoryResponse::class.java)
-            emit(errorResponse.message?.let { NetResult.Error(it) })
+            if (e.code() == 401) {
+                emit(NetResult.Error("${e.code()}"))
+            } else {
+                emit(errorResponse.message.let { NetResult.Error(it) })
+            }
         } catch (e: Exception) {
             Log.e("History", "Unexpected error", e)
         }

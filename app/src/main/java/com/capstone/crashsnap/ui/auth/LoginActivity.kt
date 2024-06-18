@@ -26,7 +26,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewModel.getSession().observe(this) { user ->
             if (user.isLogin) {
-                val moveToMain = Intent(this, MainActivity::class.java)
+                val moveToMain = Intent(this, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                }
                 startActivity(moveToMain)
                 finish()
             } else {
