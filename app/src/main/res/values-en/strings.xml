@@ -40,7 +40,7 @@
     <string name="see_all">See all</string>
     <string name="detection_history">History</string>
     <string name="repair_shop">Repair Shop</string>
-    <string name="expert_tips">Expert Tips</string>
+    <string name="expert_tips">Helpful Tips</string>
     <string name="preview_image">Preview Image</string>
     <string name="analyze_button_text">Analyze</string>
     <string name="empty_history2">" You can start by clicking the button at the bottom right"</string>
@@ -62,4 +62,14 @@
     <string name="descTips5">Either while you’re at the scene of the accident or after the fact, you can choose a repair shop that you’re comfortable with, or search for one in your area.</string>
     <string name="descTips6">If you have insurance you need to contact your insurance company to start a claim. They will also be able to give you an idea of the next steps to take and what to expect from the process.</string>
     <string name="descTips7">If it’s covered by your insurance, make sure replacement parts are new.</string>
+    <string name="cost">Rp 100.000</string>
+    <string name="processed_image">Image Result</string>
+    <string name="damage_detected">Damage Detected</string>
+    <string name="damages">- Damage</string>
+    <string name="estimated_cost">Estimated Cost</string>
+    <string name="min_cost">Min Cost</string>
+    <string name="max_cost">Max Cost</string>
+    <string name="invalid_token_title">Oh No!</string>
+    <string name="invalid_token_msg">Session expired. Please log in again</string>
+    <string name="success_deleted">Data deleted</string>
 </resources>
